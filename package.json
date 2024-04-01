@@ -1,0 +1,20 @@
+{
+  "name": "ws-speech-server",
+  "version": "0.0.0",
+  "scripts": {
+    "res:build": "rescript",
+    "res:clean": "rescript clean",
+    "res:dev": "rescript -w"
+  },
+  "keywords": [
+    "rescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@rescript/core": "^1.1.0",
+    "rescript": "^11.1.0-rc.5",
+    "rescript-nodejs": "^16.1.0",
+    "ws": "^8.16.0"
+  }
+}

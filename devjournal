@@ -1,0 +1,5 @@
+---------------------------------
+2024/03/31 takeshi:
+
+For websocket bindings check:
+https://github.com/Exegetech/chat-rescript/blob/65c1fbf6f88ccd71e97433d0aff2ffff337029a9/frontend/src/bindings/WebSocket.res
