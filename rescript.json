@@ -11,7 +11,8 @@
   "suffix": ".res.js",
   "bs-dependencies": [
     "@rescript/core",
-    "rescript-nodejs"
+    "rescript-nodejs",
+    "bs-websocket"
   ],
   "bsc-flags": [
     "-open RescriptCore"
