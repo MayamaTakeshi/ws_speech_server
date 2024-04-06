@@ -1,3 +1,6 @@
+open Nact
+open SpeechAgent
+
 type webSocketOptions = {
   port: int,
   // Add other options as needed
@@ -14,23 +17,26 @@ type wsconn
 @send external onError: (wsconn, @as("error") _, @uncurry ('err => unit)) => unit = "on"
 @send external onClose: (wsconn, @as("close") _, @uncurry (unit => unit)) => unit = "on"
 
+let system = start()
+
 let wss = webSocketServer({
   port: 8080
 });
 
 onConnection(wss, wc => {
   Js.log("new connection");
+  let sa = createSpeechAgent(system, wc)
 
   onMessage(wc, m => {
-    Js.log(`got message=${m}`);
+    dispatch(sa, WSMessage(m))
   });
 
-  onError(wc, err => {
-    Js.log(`got err=${err}`);
+  onError(wc, () => {
+    dispatch(sa, WSError)
   });
 
   onClose(wc, () => {
-    Js.log(`got close`);
+    dispatch(sa, WSClose)
   });
 });
 
