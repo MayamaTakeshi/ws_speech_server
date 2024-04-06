@@ -7,7 +7,6 @@ type webSocketOptions = {
 };
 
 type wsserver
-type wsconn
 
 @new @module("ws") external webSocketServer : webSocketOptions => wsserver = "WebSocketServer";
 
@@ -29,7 +28,7 @@ onConnection(wss, wc => {
 
   onMessage(wc, (m, isBinary) => {
     if !isBinary {
-      dispatch(sa, WSCmd(m))
+      dispatch(sa, WSString(m))
     } else {
       ()
     }

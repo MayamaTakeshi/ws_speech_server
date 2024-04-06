@@ -1,28 +1,59 @@
 open Nact
+open Commands
 
 type msg =
-  | WSCmd(string)
+  | WSString(string)
   | WSError
   | WSClose
+
+type stream = string
+type wsconn
+
+type state = {
+  wc: wsconn,
+  ss_stream: option<stream>,
+  sr_stream: option<stream>
+}
+
+let processString = (st, s) => {
+  let c = decode(s)
+  switch c {
+  | StartSpeechSynth(args) =>
+    switch st {
+    | {ss_stream: Some(sss)} => 
+      Js.log("sss already in place")
+      st
+    | {ss_stream: None} => 
+      Js.log("sss not set")
+      {...st, ss_stream: Some("ss")}
+    }
+  | StartSpeechRecog(args) =>
+    Js.log("StartSpeechRecog")
+    st
+  | _ => 
+    Js.log("Unknown")
+    st
+  }
+}
 
 let createSpeechAgent = (parent, wc) =>
   spawn(
     parent,
-    (_state, m, _) => {
+    (st, m, _) => {
         switch m {
-           | WSCmd(s) => {
+           | WSString(s) => {
              Js.log(`Got ${s}`);
-             {wc}
+             processString(st, s)
            }
            | WSError => {
              Js.log(`Got error`);
-             {wc}
+             st
            }
            | WSClose => {
              Js.log(`Got close`);
-             {wc}
+             st
            }
         }
     }->Js.Promise.resolve,
-    _ => {wc}
+    _ => {wc, ss_stream: None, sr_stream: None}
   );
