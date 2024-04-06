@@ -1,7 +1,7 @@
 open Nact
 
 type msg =
-  | WSMessage(string)
+  | WSCmd(string)
   | WSError
   | WSClose
 
@@ -10,7 +10,7 @@ let createSpeechAgent = (parent, wc) =>
     parent,
     (_state, m, _) => {
         switch m {
-           | WSMessage(s) => {
+           | WSCmd(s) => {
              Js.log(`Got ${s}`);
              {wc}
            }

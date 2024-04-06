@@ -10,7 +10,7 @@ It is mostly a helper for sip-lab to permit it to use google tts/stt, whisper et
 
 ## Build
 
-- Build: `npm run res:build`
-- Clean: `npm run res:clean`
-- Build & watch: `npm run res:dev`
+- Build: `npm run build`
+- Clean: `npm run clean`
+- Build & watch: `npm run start`
 

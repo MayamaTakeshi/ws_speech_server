@@ -13,7 +13,7 @@ type wsconn
 
 @send external onConnection: (wsserver, @as("connection") _, @uncurry (wsconn => unit)) => unit = "on"
 
-@send external onMessage: (wsconn, @as("message") _, @uncurry (string => unit)) => unit = "on"
+@send external onMessage: (wsconn, @as("message") _, @uncurry (('a, bool) => unit)) => unit = "on"
 @send external onError: (wsconn, @as("error") _, @uncurry ('err => unit)) => unit = "on"
 @send external onClose: (wsconn, @as("close") _, @uncurry (unit => unit)) => unit = "on"
 
@@ -27,8 +27,12 @@ onConnection(wss, wc => {
   Js.log("new connection");
   let sa = createSpeechAgent(system, wc)
 
-  onMessage(wc, m => {
-    dispatch(sa, WSMessage(m))
+  onMessage(wc, (m, isBinary) => {
+    if !isBinary {
+      dispatch(sa, WSCmd(m))
+    } else {
+      ()
+    }
   });
 
   onError(wc, () => {
