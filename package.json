@@ -1,21 +1,23 @@
 {
-  "name": "ws-speech-server",
+  "name": "ws_speech_server",
   "version": "0.0.0",
   "scripts": {
-    "res:build": "rescript",
-    "res:clean": "rescript clean",
-    "res:dev": "rescript -w"
+    "build": "npx rescript build",
+    "start": "npx rescript build -w",
+    "clean": "npx rescript clean"
   },
   "keywords": [
-    "rescript"
+    "rescript",
+    "reason-nact",
+    "speech",
+    "synth",
+    "recog"
   ],
-  "author": "",
+  "author": "MayamaTakeshi",
   "license": "MIT",
   "dependencies": {
-    "@rescript/core": "^1.1.0",
-    "bs-websocket": "^0.1.5",
-    "rescript": "^11.1.0-rc.5",
-    "rescript-nodejs": "^16.1.0",
+    "reason-nact": "^5.0.0",
+    "rescript": "^9.1.4",
     "ws": "^8.16.0"
   }
 }
