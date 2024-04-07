@@ -28,6 +28,12 @@ let processString = (st, s) => {
   }
 }
 
+let stop = (st: state) => {
+  let _ = Synther.stop(st.synther)
+  let _ = Recoger.stop(st.recoger)
+  st
+}
+
 let createSpeechAgent = (parent, id, wc) =>
   spawn(
     ~name=id,
@@ -40,11 +46,11 @@ let createSpeechAgent = (parent, id, wc) =>
            }
            | WSError => {
              Js.log(`Got error`);
-             st
+             stop(st)
            }
            | WSClose => {
              Js.log(`Got close`);
-             st
+             stop(st)
            }
         }
     }->Js.Promise.resolve,

@@ -1,2 +1,2 @@
-type stream
+type stream = string
 type wsconn
