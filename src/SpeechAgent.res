@@ -9,8 +9,6 @@ type msg =
   | WSError
   | WSClose
 
-type wsconn
-
 type state = {
   wc: wsconn,
   synther: Synther.t,
@@ -21,11 +19,9 @@ let processString = (st, s) => {
   let c = decode(s)
   switch c {
   | StartSpeechSynth(args) =>
-    Synther.start(st.synther, args)
-    st
+    {...st, synther: Synther.start(st.synther, args)}
   | StartSpeechRecog(args) =>
-    Recoger.start(st.recoger, args)
-    st
+    {...st, recoger: Recoger.start(st.recoger, args)}
   | _ => 
     Js.log("Unknown")
     st
@@ -52,7 +48,7 @@ let createSpeechAgent = (parent, id, wc) =>
            }
         }
     }->Js.Promise.resolve,
-    _ => { 
+    _ => {
       Js.log(`Created ${id}`)
       {wc, synther: Synther.make(wc), recoger: Recoger.make(wc)}
     } 

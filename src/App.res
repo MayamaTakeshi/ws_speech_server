@@ -1,5 +1,6 @@
 open Nact
 open SpeechAgent
+open Types
 
 type webSocketOptions = {
   port: int,
