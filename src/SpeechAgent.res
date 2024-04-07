@@ -1,34 +1,30 @@
+open Types
 open Nact
 open Commands
+open Synther
+open Recoger
 
 type msg =
   | WSString(string)
   | WSError
   | WSClose
 
-type stream = string
 type wsconn
 
 type state = {
   wc: wsconn,
-  ss_stream: option<stream>,
-  sr_stream: option<stream>
+  synther: Synther.t,
+  recoger: Recoger.t
 }
 
 let processString = (st, s) => {
   let c = decode(s)
   switch c {
   | StartSpeechSynth(args) =>
-    switch st {
-    | {ss_stream: Some(sss)} => 
-      Js.log("sss already in place")
-      st
-    | {ss_stream: None} => 
-      Js.log("sss not set")
-      {...st, ss_stream: Some("ss")}
-    }
+    Synther.start(st.synther, args)
+    st
   | StartSpeechRecog(args) =>
-    Js.log("StartSpeechRecog")
+    Recoger.start(st.recoger, args)
     st
   | _ => 
     Js.log("Unknown")
@@ -36,8 +32,9 @@ let processString = (st, s) => {
   }
 }
 
-let createSpeechAgent = (parent, wc) =>
+let createSpeechAgent = (parent, id, wc) =>
   spawn(
+    ~name=id,
     parent,
     (st, m, _) => {
         switch m {
@@ -55,5 +52,8 @@ let createSpeechAgent = (parent, wc) =>
            }
         }
     }->Js.Promise.resolve,
-    _ => {wc, ss_stream: None, sr_stream: None}
+    _ => { 
+      Js.log(`Created ${id}`)
+      {wc, synther: Synther.make(wc), recoger: Recoger.make(wc)}
+    } 
   );

@@ -3,3 +3,17 @@
 
 For websocket bindings check:
 https://github.com/Exegetech/chat-rescript/blob/65c1fbf6f88ccd71e97433d0aff2ffff337029a9/frontend/src/bindings/WebSocket.res
+
+---------------------------------
+2024/04/06 takeshi:
+
+Pending implementation:
+
+src/Synther.res:
+  - creates and recreates ss_stream
+  - starts timer to periodically read data from ss_stream and write to websocket
+  - subscribe to ss_stream('end-of-file') and writes 'end-of-file' to websocket
+src/Recoger.res:
+  - creates and recreates sr_stream
+  - subscribe to wc.on('data') and writes to sr_stream
+  - subscribe to sr_stream('data') and writes 'transcript' to websocket

@@ -1,0 +1,2 @@
+
+type stream = string

@@ -16,6 +16,8 @@ type wsserver
 @send external onError: (wsconn, @as("error") _, @uncurry ('err => unit)) => unit = "on"
 @send external onClose: (wsconn, @as("close") _, @uncurry (unit => unit)) => unit = "on"
 
+let count = ref(0)
+
 let system = start()
 
 let wss = webSocketServer({
@@ -23,8 +25,9 @@ let wss = webSocketServer({
 });
 
 onConnection(wss, wc => {
-  Js.log("new connection");
-  let sa = createSpeechAgent(system, wc)
+  count := count.contents+1
+  Js.log2(`new connection`, count.contents);
+  let sa = createSpeechAgent(system, `sa-${Belt.Int.toString(count.contents)}`, wc)
 
   onMessage(wc, (m, isBinary) => {
     if !isBinary {

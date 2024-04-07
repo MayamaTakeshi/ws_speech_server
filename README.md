@@ -14,3 +14,10 @@ It is mostly a helper for sip-lab to permit it to use google tts/stt, whisper et
 - Clean: `npm run clean`
 - Build & watch: `npm run start`
 
+## reason-nact
+
+We use reason-nact (actually, this is "rescript-nact") however it cannot be used with latest rescript 11 so we will stay with rescript 9.
+
+This means we will not be able to use more recent modules which require rescript 11 like rescript-nodejs.
+
+
