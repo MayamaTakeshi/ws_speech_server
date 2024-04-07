@@ -17,4 +17,6 @@ module Recoger = {
     | Some(srs) => {...recoger, sr_stream: Some(srs)}
     }
   }
+
+  // Need to call sr_stream.end() and this will call writable._final in our stream
 }
