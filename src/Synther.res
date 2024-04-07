@@ -1,5 +1,7 @@
 open Types
 
+@new @module("dtmf-generation-stream") external makeDtmfGenerationStream : 'a => stream = "DtmfGenerationStream";
+
 module Synther = {
   type t = {
     wc: wsconn,
@@ -17,13 +19,19 @@ module Synther = {
     let intId = Js.Global.setInterval(() => {
       Js.log("interval")
     }, 50)
-    {...st, stream: Some("abc"), intId: Js.Nullable.return(intId)}
+    let stream = makeDtmfGenerationStream({
+      "sampleRate": 8000,
+      "bitDepth": 16,
+      "channels": 1,
+    })
+    let _ = %raw(`stream.enqueue(args["text"])`)
+    {...st, stream: Some(stream), intId: Js.Nullable.return(intId)}
   }
 
   let destroyStream = (synther) => {
     switch synther.stream {
     | Some(sss) =>
-      let _ = %raw(`sss.close()`) // %%raw() is not working so I am using %raw()
+      let _ = %raw(`sss.destroy()`) // %%raw() is not working so I am using %raw()
 
       switch (Js.Nullable.toOption(synther.intId)) {
       | Some(id) =>

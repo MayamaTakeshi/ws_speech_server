@@ -1,4 +1,4 @@
-type cmdArgs = Js.Dict.t<string>;
+open Types
 
 type cmd = 
   | StartSpeechSynth(cmdArgs)

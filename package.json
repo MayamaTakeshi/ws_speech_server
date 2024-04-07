@@ -6,6 +6,9 @@
     "start": "npx rescript build -w",
     "clean": "npx rescript clean"
   },
+  "engines": {
+    "node": "^21.2.0"
+  },
   "keywords": [
     "rescript",
     "reason-nact",
@@ -17,9 +20,9 @@
   "license": "MIT",
   "dependencies": {
     "dtmf-detection-stream": "^1.10.1",
+    "dtmf-generation-stream": "^1.1.0",
     "reason-nact": "^5.0.0",
     "rescript": "^9.1.4",
-    "tone-stream": "^1.5.0",
     "ws": "^8.16.0"
   }
 }
