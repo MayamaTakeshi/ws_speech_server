@@ -28,7 +28,7 @@ let wss = webSocketServer({
 onConnection(wss, wc => {
   count := count.contents+1
   Js.log2(`new connection`, count.contents);
-  let sa = createSpeechAgent(system, `sa-${Belt.Int.toString(count.contents)}`, wc)
+  let sa = SpeechAgent.make(system, `sa-${Belt.Int.toString(count.contents)}`, wc)
 
   onMessage(wc, (m, isBinary) => {
     if !isBinary {

@@ -24,10 +24,10 @@ module Synther = {
       "stay_alive": true,
     })
     let intId = Js.Global.setInterval(() => {
-      let data = %raw(`stream.read(160)`)
+      let data = %raw(`stream.read(320)`)
       Js.log2("interval", data)
       let _ = %raw(`st.wc.send(data, true)`)
-    }, 50)
+    }, 20)
     let _ = %raw(`stream.enqueue(args["text"])`) // %%raw() is not working so I am using %raw()
     {...st, stream: Some(stream), intId: Js.Nullable.return(intId)}
   }
