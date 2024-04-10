@@ -2,6 +2,12 @@ open Types
 
 @new @module("dtmf-generation-stream") external makeDtmfGenerationStream : ('a, 'b) => stream = "DtmfGenerationStream";
 
+@send external read: (stream, int) => 'buffer = "read"
+
+@send external send: (wsconn, 'buffer, bool) => unit = "send"
+
+@send external enqueue: (stream, string) => unit = "enqueue"
+
 module Synther = {
   type t = {
     wc: wsconn,
@@ -24,11 +30,13 @@ module Synther = {
       "stay_alive": true,
     })
     let intId = Js.Global.setInterval(() => {
-      let data = %raw(`stream.read(320)`)
+      //let data = %raw(`stream.read(320)`)
+      let data = read(stream, 320)
       Js.log2("interval", data)
-      let _ = %raw(`st.wc.send(data, true)`)
+      send(st.wc, data, true)
     }, 20)
-    let _ = %raw(`stream.enqueue(args["text"])`) // %%raw() is not working so I am using %raw()
+    //enqueue(stream, args["text"])
+    let _ = %raw(`stream.enqueue(args["text"])`)
     {...st, stream: Some(stream), intId: Js.Nullable.return(intId)}
   }
 
