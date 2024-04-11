@@ -18,6 +18,6 @@ It is mostly a helper for sip-lab to permit it to use google tts/stt, whisper et
 
 We use reason-nact (actually, this is "rescript-nact") however it cannot be used with latest rescript 11 so we will stay with rescript 9.
 
-This means we will not be able to use more recent modules which require rescript 11 like rescript-nodejs.
+This means we will not be able to use more recent modules which require rescript 11 like https://github.com/glennsl/rescript-json-combinators.
 
 

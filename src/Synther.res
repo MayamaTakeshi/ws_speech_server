@@ -1,5 +1,11 @@
 open Types
 
+type synthArgs = {
+  engine: string,
+  voice: string,
+  text: string
+}
+
 @new @module("dtmf-generation-stream") external makeDtmfGenerationStream : ('a, 'b) => stream = "DtmfGenerationStream";
 
 @send external read: (stream, int) => 'buffer = "read"

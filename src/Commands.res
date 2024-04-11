@@ -5,7 +5,7 @@ type cmd =
   | StartSpeechRecog(cmdArgs)
   | Unknown
 
-let decode_json = %raw(`function(s) { return JSON.parse(s); }`);
+@scope("JSON") @val external decode_json: string => 'a = "parse"
 
 let decode = s => {
   let decoded = decode_json(s)
