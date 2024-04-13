@@ -19,6 +19,7 @@
   "author": "MayamaTakeshi",
   "license": "MIT",
   "dependencies": {
+    "config": "^3.3.11",
     "dtmf-detection-stream": "^1.12.0",
     "dtmf-generation-stream": "^1.4.0",
     "reason-nact": "^5.0.0",

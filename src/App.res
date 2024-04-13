@@ -2,7 +2,10 @@ open Nact
 open SpeechAgent
 open Types
 
+let config = %raw(`require('config')`)
+
 type webSocketOptions = {
+  host: string,
   port: int,
   // Add other options as needed
 };
@@ -22,7 +25,8 @@ let count = ref(0)
 let system = start()
 
 let wss = webSocketServer({
-  port: 8080
+  host: config.host,
+  port: config.port,
 });
 
 onConnection(wss, wc => {

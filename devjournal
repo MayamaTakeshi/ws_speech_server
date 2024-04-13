@@ -17,3 +17,52 @@ src/Recoger.res:
   - creates and recreates sr_stream
   - subscribe to wc.on('data') and writes to sr_stream
   - subscribe to sr_stream('data') and writes 'transcript' to websocket
+
+---------------------------------
+2024/04/13 takeshi:
+
+To permit to support different speech synth/recog engines the config file of the app will be like this:
+```
+{
+  "listen": "IP:PORT",
+
+  "engines": {
+    "dtmf-gen": {
+      "module": "dtmf-generation-stream",
+      "config": {...config params...}
+    },
+    "dtmf-det": {
+      "module": "dtmf-detection-stream",
+      "config": {...config params...}
+    },
+    "gss", {
+      "module": "google-speech-synth-stream",
+      "config": {...config params...}
+    },
+    "gsr", {
+      "module": "google-speech-recog-stream",
+      "config": {...config params...}
+    },
+    "azure-tts": {
+      "module": "azure-speech-recog-stream",
+      "config": {...config params...}
+    },
+    "azure-stt": {
+      "module": "azure-speech-recog-stream",
+      "config": {...config params...}
+    },
+    "whisper": {
+      "module": "whisper-speech-recog-stream",
+      "config": {...config params...}
+    }
+}
+```
+
+And we will have code like this to load the modules:
+
+```
+const module_name = 'dtmf-generation-stream'
+const mod = await import(name)
+```
+
+
