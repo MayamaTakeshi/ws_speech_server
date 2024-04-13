@@ -1,0 +1,16 @@
+module.exports = {
+  "host": "0.0.0.0",
+  "port": 8080,
+
+  "engines": {
+    "dtmf-gen": {
+      "module": "dtmf-generation-stream",
+      "config": {},
+    },
+    "dtmf-det": {
+      "module": "dtmf-detection-stream",
+      "config": {},
+    },
+  }
+}
+
