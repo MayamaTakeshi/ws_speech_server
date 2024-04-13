@@ -1,12 +1,8 @@
 open Types
+open Commands
 
-type synthArgs = {
-  engine: string,
-  voice: string,
-  text: string
-}
-
-@new @module("dtmf-generation-stream") external makeDtmfGenerationStream : ('a, 'b) => stream = "DtmfGenerationStream";
+@new @module("dtmf-generation-stream")
+external makeDtmfGenerationStream: ('a, 'b) => stream = "DtmfGenerationStream"
 
 @send external read: (stream, int) => 'buffer = "read"
 
@@ -14,64 +10,64 @@ type synthArgs = {
 
 @send external enqueue: (stream, string) => unit = "enqueue"
 
+@send external destroy: stream => unit = "destroy"
+
 module Synther = {
   type t = {
     wc: wsconn,
     intId: Js.Nullable.t<Js.Global.intervalId>,
-    stream: option<stream>
+    stream: option<stream>,
   }
 
-  let make = (wc) => {
-    wc,
+  let make = wc => {
+    wc: wc,
     intId: Js.Nullable.null,
-    stream: None
+    stream: None,
   }
 
   let createStream = (st, args) => {
-    let stream = makeDtmfGenerationStream({
-      "sampleRate": 8000,
-      "bitDepth": 16,
-      "channels": 1,
-    }, {
-      "stay_alive": true,
-    })
+    let stream = makeDtmfGenerationStream(
+      {
+        "sampleRate": 8000,
+        "bitDepth": 16,
+        "channels": 1,
+      },
+      {
+        "stay_alive": true,
+      },
+    )
     let intId = Js.Global.setInterval(() => {
-      //let data = %raw(`stream.read(320)`)
       let data = read(stream, 320)
       Js.log2("interval", data)
       send(st.wc, data, true)
     }, 20)
-    //enqueue(stream, args["text"])
-    let _ = %raw(`stream.enqueue(args["text"])`)
+    enqueue(stream, args.text)
     {...st, stream: Some(stream), intId: Js.Nullable.return(intId)}
   }
 
-  let destroyStream = (synther) => {
+  let destroyStream = synther => {
     switch synther.stream {
     | Some(sss) =>
-      let _ = %raw(`sss.destroy()`) // %%raw() is not working so I am using %raw()
+      destroy(sss)
 
-      switch (Js.Nullable.toOption(synther.intId)) {
+      switch Js.Nullable.toOption(synther.intId) {
       | Some(id) =>
         Js.log("intervalId found. Clearing it")
-        Js.Global.clearInterval(id);
+        Js.Global.clearInterval(id)
         {...synther, stream: None, intId: Js.Nullable.null}
       | None =>
         Js.log("intervalId not found")
         {...synther, stream: None}
       }
-    | None =>
-      synther 
+    | None => synther
     }
   }
 
   let start = (synther, args) => {
-    synther 
-    -> destroyStream
-    -> createStream(_, args)
+    synther->destroyStream->createStream(_, args)
   }
 
-  let stop = (synther) => {
+  let stop = synther => {
     Js.log("synther stop")
     destroyStream(synther)
   }

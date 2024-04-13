@@ -1,6 +1,6 @@
 open Types
 open Nact
-open Commands
+//open Commands
 open Synther
 open Recoger
 
@@ -17,7 +17,7 @@ module SpeechAgent = {
   }
 
   let processString = (st, s) => {
-    let c = decode(s)
+    let c = Commands.decode(s)
     switch c {
     | StartSpeechSynth(args) =>
       {...st, synther: Synther.start(st.synther, args)}
