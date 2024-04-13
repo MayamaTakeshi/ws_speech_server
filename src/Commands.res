@@ -1,4 +1,5 @@
 type synthArgs = {
+  sampleRate: int,
   engine: string,
   voice: string,
   text: string,
@@ -6,14 +7,20 @@ type synthArgs = {
 
 let checkSynthArgs = args => {
   try {
-    switch (Js.Dict.get(args, "engine"), Js.Dict.get(args, "voice"), Js.Dict.get(args, "text")) {
-    | (Some(engineJson), Some(voiceJson), Some(textJson)) =>
+    switch (Js.Dict.get(args, "sampleRate"), Js.Dict.get(args, "engine"), Js.Dict.get(args, "voice"), Js.Dict.get(args, "text")) {
+    | (Some(sampleRateJson), Some(engineJson), Some(voiceJson), Some(textJson)) =>
       switch (
+        Js.Json.decodeNumber(sampleRateJson),
         Js.Json.decodeString(engineJson),
         Js.Json.decodeString(voiceJson),
         Js.Json.decodeString(textJson),
       ) {
-      | (Some(engine), Some(voice), Some(text)) => Some({engine: engine, voice: voice, text: text})
+      | (Some(sampleRate), Some(engine), Some(voice), Some(text)) => Some({
+          sampleRate: Belt.Int.fromFloat(sampleRate),
+          engine,
+          voice,
+          text
+        })
       | _ => None
       }
     | _ => None
@@ -24,16 +31,21 @@ let checkSynthArgs = args => {
 }
 
 type recogArgs = {
+  sampleRate: int,
   engine: string,
   language: string,
 }
 
 let checkRecogArgs = args => {
   try {
-    switch (Js.Dict.get(args, "engine"), Js.Dict.get(args, "language")) {
-    | (Some(engineJson), Some(languageJson)) =>
-      switch (Js.Json.decodeString(engineJson), Js.Json.decodeString(languageJson)) {
-      | (Some(engine), Some(language)) => Some({engine: engine, language: language})
+    switch (Js.Dict.get(args, "sampleRate"), Js.Dict.get(args, "engine"), Js.Dict.get(args, "language")) {
+    | (Some(sampleRateJson), Some(engineJson), Some(languageJson)) =>
+      switch (Js.Json.decodeNumber(sampleRateJson), Js.Json.decodeString(engineJson), Js.Json.decodeString(languageJson)) {
+      | (Some(sampleRate), Some(engine), Some(language)) => Some({
+          sampleRate: Belt.Int.fromFloat(sampleRate),
+          engine,
+          language
+        })
       | _ => None
       }
     | _ => None

@@ -25,10 +25,10 @@ module Synther = {
     stream: None,
   }
 
-  let createStream = (st, args) => {
+  let createStream = (st, args: synthArgs) => {
     let stream = makeDtmfGenerationStream(
       {
-        "sampleRate": 8000,
+        "sampleRate": args.sampleRate,
         "bitDepth": 16,
         "channels": 1,
       },
@@ -36,8 +36,9 @@ module Synther = {
         "stay_alive": true,
       },
     )
+    let bytes = (args.sampleRate / 8000) * 320
     let intId = Js.Global.setInterval(() => {
-      let data = read(stream, 320)
+      let data = read(stream, bytes)
       Js.log2("interval", data)
       send(st.wc, data, true)
     }, 20)

@@ -2,8 +2,10 @@ const { WebSocket } = require('ws')
 const Speaker = require('speaker')
 const DtmfDetectionStream = require('dtmf-detection-stream')
 
+const sampleRate = 8000
+
 const format = {
-	sampleRate: 8000,
+	sampleRate,
 	bitDepth: 16,
 	channels: 1
 }
@@ -19,6 +21,7 @@ const send_start_speech_synth = () => {
     ws.send(JSON.stringify({
       cmd: "start_speech_synth",
       args: {
+        sampleRate,
         engine: "dtmf",
         voice: "dtmf",
         text: 'ABCD'

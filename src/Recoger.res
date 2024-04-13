@@ -1,4 +1,5 @@
 open Types
+open Commands
 
 module Recoger = {
   type t = {
@@ -11,7 +12,7 @@ module Recoger = {
     stream: None,
   }
 
-  let start = (recoger, _args) => {
+  let start = (recoger, _args: recogArgs) => {
     switch recoger.stream {
     | None => {...recoger, stream: None}
     | Some(srs) => {...recoger, stream: Some(srs)}
