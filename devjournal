@@ -19,32 +19,35 @@ src/Recoger.res:
   - subscribe to sr_stream('data') and writes 'transcript' to websocket
 
 ---------------------------------
-2024/04/13 takeshi:
+2024/04/14 takeshi:
 
 To permit to support different speech synth/recog engines the config file of the app will be like this:
 ```
 {
   "listen": "IP:PORT",
 
-  "engines": {
+  "ss_engines": {
     "dtmf-gen": {
       "module": "dtmf-generation-stream",
       "config": {...config params...}
     },
-    "dtmf-det": {
-      "module": "dtmf-detection-stream",
-      "config": {...config params...}
-    },
-    "gss", {
+    "gss": {
       "module": "google-speech-synth-stream",
-      "config": {...config params...}
-    },
-    "gsr", {
-      "module": "google-speech-recog-stream",
       "config": {...config params...}
     },
     "azure-tts": {
       "module": "azure-speech-recog-stream",
+      "config": {...config params...}
+    },
+  },
+
+  "sr_engines": {
+    "dtmf-det": {
+      "module": "dtmf-detection-stream",
+      "config": {...config params...}
+    },
+    "gsr": {
+      "module": "google-speech-recog-stream",
       "config": {...config params...}
     },
     "azure-stt": {
@@ -55,8 +58,8 @@ To permit to support different speech synth/recog engines the config file of the
       "module": "whisper-speech-recog-stream",
       "config": {...config params...}
     }
+  }
 }
-```
 
 And we will have code like this to load the modules:
 
@@ -65,4 +68,23 @@ const module_name = 'dtmf-generation-stream'
 const mod = await import(name)
 ```
 
+However, the rescript app itself will not have to deal with this.
+
+Instead, we will write a javascript module that will provide a promise that will load the engines and provide a stream_factory function like this:
+  get_stream_factory(config)
+  ->Js.Promise.then_(stream_factory => {
+    // then stream_factory will be passed to SpeechService instance that in turn will pass it to Synther or Recoger instance
+  })
+
+The stream_factory will be called like this:
+```
+  stream = stream_factory(format, engine, type, vendor_params})
+```
+where:
+  - format is {sampleRate, bitDepth, channels}
+  - engine is the engine name as registered in the config file ('dtmf-det', dtmf-gen' etc)
+  - type: 'synth' | 'recog'
+  - vendor_params: any extra_parameters that the stream implementation might allow
+
+This will be later reused by mrcp_server.
 

@@ -131,3 +131,5 @@ dist
 
 *.bs.js
 .merlin
+
+config/default.js
