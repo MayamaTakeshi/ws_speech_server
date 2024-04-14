@@ -25,16 +25,17 @@ module Synther = {
   }
 
   let createStream = (st, args: synthArgs) => {
-    let stream = st.stream_factory(
-      "fake-uuid",
-      args.engine,
-      "synth",
-      {
-        sampleRate: args.sampleRate,
-        bitDepth: 16,
-        channels: 1,
-      }
-    )
+    let stream = st.stream_factory({
+        "uuid": "fake-uuid",
+        "engine": args.engine,
+        "type": "synth",
+        "format": {
+          sampleRate: args.sampleRate,
+          bitDepth: 16,
+          channels: 1,
+        },
+      })
+    Js.log2("stream", stream)
     let bytes = (args.sampleRate / 8000) * 320
     let intId = Js.Global.setInterval(() => {
       let data = read(stream, bytes)

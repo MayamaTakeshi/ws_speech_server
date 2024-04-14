@@ -19,5 +19,12 @@ type format = {
   channels: int,
 }
 
-type stream_factory = string => string => string => format => stream
+type factory_args = {
+  "uuid": string,
+  "engine": string,
+  "type": string,
+  "format": format,
+}
+
+type stream_factory = factory_args => stream
 
