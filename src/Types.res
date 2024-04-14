@@ -13,3 +13,11 @@ type engine = {
   m: stream_module
 }
 
+type format = {
+  sampleRate: int,
+  bitDepth: int,
+  channels: int,
+}
+
+type stream_factory = string => string => string => format => stream
+

@@ -35,7 +35,7 @@ module SpeechAgent = {
     st
   }
 
-  let make = (parent, id, wc, engines) => {
+  let make = (parent, id, wc, stream_factory) => {
     spawn(
       ~name=id,
       parent,
@@ -57,7 +57,7 @@ module SpeechAgent = {
       }->Js.Promise.resolve,
       _ => {
         Js.log(`Created ${id}`)
-        {wc, synther: Synther.make(wc), recoger: Recoger.make(wc)}
+        {wc, synther: Synther.make(wc, stream_factory), recoger: Recoger.make(wc)}
       } 
     )
   }

@@ -20,7 +20,7 @@ type wsserver
 @send external onError: (wsconn, @as("error") _, @uncurry ('err => unit)) => unit = "on"
 @send external onClose: (wsconn, @as("close") _, @uncurry (unit => unit)) => unit = "on"
 
-@module external load_engines: () => 'a = "./Engines.js"
+@module external create_stream_factory: 'a => 'b = "speech-synth-and-recog-stream-factory"
 
 let count = ref(0)
 
@@ -31,11 +31,11 @@ let wss = webSocketServer({
   port: config.port,
 });
 
-let prepare_server = (engines) => {
+let prepare_server = (stream_factory) => {
   onConnection(wss, wc => {
     count := count.contents+1
     Js.log2(`new connection`, count.contents);
-    let sa = SpeechAgent.make(system, `sa-${Belt.Int.toString(count.contents)}`, wc, engines)
+    let sa = SpeechAgent.make(system, `sa-${Belt.Int.toString(count.contents)}`, wc, stream_factory)
 
     onMessage(wc, (m, isBinary) => {
       if !isBinary {
@@ -55,10 +55,11 @@ let prepare_server = (engines) => {
   });
 }
 
-load_engines()
-|> Js.Promise.then_(engines => {
-    Js.log2("Promise resolved with engines: ", engines);
-    prepare_server(engines)
+Js.log(config)
+create_stream_factory(config)
+|> Js.Promise.then_(stream_factory => {
+    Js.log2("Promise resolved with stream_factory: ", stream_factory);
+    prepare_server(stream_factory)
     Js.Promise.resolve();
   })
 |> Js.Promise.catch(error => {

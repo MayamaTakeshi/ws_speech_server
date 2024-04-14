@@ -1,9 +1,6 @@
 open Types
 open Commands
 
-@new @module("dtmf-generation-stream")
-external makeDtmfGenerationStream: ('a, 'b) => stream = "DtmfGenerationStream"
-
 @send external read: (stream, int) => 'buffer = "read"
 
 @send external send: (wsconn, 'buffer, bool) => unit = "send"
@@ -15,26 +12,28 @@ external makeDtmfGenerationStream: ('a, 'b) => stream = "DtmfGenerationStream"
 module Synther = {
   type t = {
     wc: wsconn,
+    stream_factory: stream_factory,
     intId: Js.Nullable.t<Js.Global.intervalId>,
     stream: option<stream>,
   }
 
-  let make = wc => {
+  let make = (wc, stream_factory) => {
     wc: wc,
+    stream_factory: stream_factory,
     intId: Js.Nullable.null,
     stream: None,
   }
 
   let createStream = (st, args: synthArgs) => {
-    let stream = makeDtmfGenerationStream(
+    let stream = st.stream_factory(
+      "fake-uuid",
+      args.engine,
+      "synth",
       {
-        "sampleRate": args.sampleRate,
-        "bitDepth": 16,
-        "channels": 1,
-      },
-      {
-        "stay_alive": true,
-      },
+        sampleRate: args.sampleRate,
+        bitDepth: 16,
+        channels: 1,
+      }
     )
     let bytes = (args.sampleRate / 8000) * 320
     let intId = Js.Global.setInterval(() => {

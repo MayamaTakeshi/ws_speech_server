@@ -22,7 +22,7 @@ const send_start_speech_synth = () => {
       cmd: "start_speech_synth",
       args: {
         sampleRate,
-        engine: "dtmf",
+        engine: "dtmf-gen",
         voice: "dtmf",
         text: 'ABCD'
       }})
