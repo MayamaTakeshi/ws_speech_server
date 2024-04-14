@@ -33,7 +33,7 @@ ws.on('open', function open() {
   send_start_speech_synth()
 })
 
-const dds = new DtmfDetectionStream(format)
+const dds = new DtmfDetectionStream({format})
 
 // we are not getting complete sequence 'ABCD' (usually 'C' is missing)
 dds.on('dtmf', data => {

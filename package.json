@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "config": "^3.3.11",
-    "dtmf-detection-stream": "^1.13.0",
+    "dtmf-detection-stream": "^1.14.0",
     "dtmf-generation-stream": "^1.6.0",
     "reason-nact": "^5.0.0",
     "rescript": "^9.1.4",
