@@ -1,37 +1,56 @@
 const config = require('config')
 
 const load_engines = () => {
-  const engines = config.engines
+  const ss_engines = Object.keys(config.ss_engines).map(key => {
+    var engine = config.ss_engines[key]
+    return {...engine, name: key, type: 'synth'}
+  })
 
-  const promises = Object.keys(engines).map(key => {
+  const sr_engines = Object.keys(config.sr_engines).map(key => {
+    var engine = config.sr_engines[key]
+    return {...engine, name: key, type: 'recog'}
+  })
+
+  const engines = [...ss_engines, ...sr_engines]
+  //console.log("engines", engines)
+ 
+  const promises = engines.map(engine => {
     return new Promise((resolve, reject) => {
-      const engine = engines[key]
-      console.log("handling", key)
+      console.log("handling", engine.name)
       import(engine.module)
       .then(m => {
-        console.log("resolving", key)
-        resolve([
-          key,
+        console.log("resolving", engine.name)
+        resolve({
+          ...engine,
           m,
-          engine.config
-        ])
+        })
       })
       .catch(e => {
-        console.log("rejecting", key)
+        console.log("rejecting", engine.name)
         reject(e)
       })
     })
   })
 
-  return Promise.all(promises)
+  return new Promise((resolve, reject) => {
+    Promise.all(promises)
+    .then(res => {
+      var synth = {}
+      res.filter(engine => engine.type == "synth").forEach(engine => {
+        synth[engine.name] = engine
+      })
+
+      var recog = {}
+      res.filter(engine => engine.type == "recog").forEach(engine => {
+        recog[engine.name] = engine
+      })
+      
+      resolve({
+        synth,
+        recog,
+      })
+    })
+  })
 }
-/*
-.then(res => {
-  console.log(res)
-})
-.catch(e => {
-  console.log("error", e)
-})
-*/
 
 module.exports = load_engines

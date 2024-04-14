@@ -35,7 +35,7 @@ module SpeechAgent = {
     st
   }
 
-  let make = (parent, id, wc) => {
+  let make = (parent, id, wc, engines) => {
     spawn(
       ~name=id,
       parent,

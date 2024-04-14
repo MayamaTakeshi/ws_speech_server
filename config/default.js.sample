@@ -2,11 +2,13 @@ module.exports = {
   "host": "0.0.0.0",
   "port": 8080,
 
-  "engines": {
+  "ss_engines": {
     "dtmf-gen": {
       "module": "dtmf-generation-stream",
       "config": {},
     },
+  },
+  "sr_engines": {
     "dtmf-det": {
       "module": "dtmf-detection-stream",
       "config": {},
