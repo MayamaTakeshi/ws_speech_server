@@ -9,6 +9,10 @@ open Commands
 
 @send external destroy: stream => unit = "destroy"
 
+@send external onEnded: (stream, @as("ended") _, @uncurry (unit => unit)) => unit = "on"
+
+@send external removeAllListeners: stream => unit = "removeAllListeners"
+
 module Synther = {
   type t = {
     wc: wsconn,
@@ -43,12 +47,19 @@ module Synther = {
       send(st.wc, data, true)
     }, 20)
     enqueue(stream, args.text)
+    onEnded(stream, () => {
+      Js.log("ended")
+      let msg = `{"evt": "speak_complete"}`
+      send(st.wc, msg, false)
+    })
     {...st, stream: Some(stream), intId: Js.Nullable.return(intId)}
   }
 
   let destroyStream = synther => {
     switch synther.stream {
-    | Some(sss) =>
+    | Some(sss) => 
+      removeAllListeners(sss)
+
       destroy(sss)
 
       switch Js.Nullable.toOption(synther.intId) {
