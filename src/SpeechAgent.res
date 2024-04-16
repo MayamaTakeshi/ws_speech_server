@@ -57,7 +57,7 @@ module SpeechAgent = {
       }->Js.Promise.resolve,
       _ => {
         Js.log(`Created ${id}`)
-        {wc, synther: Synther.make(wc, stream_factory), recoger: Recoger.make(wc)}
+        {wc, synther: Synther.make(wc, stream_factory), recoger: Recoger.make(wc, stream_factory)}
       } 
     )
   }

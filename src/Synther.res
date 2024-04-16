@@ -57,10 +57,10 @@ module Synther = {
 
   let destroyStream = synther => {
     switch synther.stream {
-    | Some(sss) => 
-      removeAllListeners(sss)
+    | Some(s) => 
+      removeAllListeners(s)
 
-      destroy(sss)
+      destroy(s)
 
       switch Js.Nullable.toOption(synther.intId) {
       | Some(id) =>

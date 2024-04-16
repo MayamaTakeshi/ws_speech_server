@@ -22,6 +22,8 @@ type wsserver
 
 @module external create_stream_factory: 'a => 'b = "speech-synth-and-recog-stream-factory"
 
+@send external removeAllListeners: wsconn => unit = "removeAllListeners"
+
 let count = ref(0)
 
 let system = start()
@@ -46,10 +48,12 @@ let prepare_server = (stream_factory) => {
     });
 
     onError(wc, () => {
+      removeAllListeners(wc)
       dispatch(sa, WSError)
     });
 
     onClose(wc, () => {
+      removeAllListeners(wc)
       dispatch(sa, WSClose)
     });
   });

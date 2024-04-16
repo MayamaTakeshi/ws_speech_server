@@ -35,17 +35,13 @@ ws.on('open', function open() {
 
 const dds = new DtmfDetectionStream({format})
 
-// we are not getting complete sequence 'ABCD' (usually 'C' is missing)
 dds.on('dtmf', data => {
   console.log('dtmf', data)
-  //
   if(data.digit == 'D') {
+    // last digit. ask for speech synth again
     send_start_speech_synth()
   }
 })
-
-var count = 0
-var buf = []
 
 ws.on('message', function message(data, isBinary) {
   /*
