@@ -54,6 +54,8 @@ ws.on('message', function message(data, isBinary) {
   } else {
     var d = JSON.parse(data)
     console.log('received: %s', d)
-    console.log(d.digit)
+    if(d.transcript.endsWith("4")) {
+      dgs.enqueue('1234')
+    }
   }
 })
