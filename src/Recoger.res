@@ -40,7 +40,7 @@ module Recoger = {
     Js.log2("stream", stream)
     onDtmf(stream, (data) => {
       Js.log2("onDtmf", data)
-      send(st.wc, data, false)
+      send(st.wc, Js.Json.stringify(data), false)
     })
     onMessage(st.wc, (data, isBinary) => {
       Js.log3("onMessage", data, isBinary)
@@ -68,8 +68,8 @@ module Recoger = {
     recoger->destroyStream->createStream(_, args)
   }
 
-  let stop = synther => {
-    Js.log("synther stop")
-    destroyStream(synther)
+  let stop = recoger => {
+    Js.log("recoger stop")
+    destroyStream(recoger)
   }
 }
