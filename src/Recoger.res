@@ -1,11 +1,11 @@
 open Types
-open Commands
+//open Commands
 
 @send external write: (stream, 'data) => unit = "write"
 
 @send external end: stream => unit = "end"
 
-@send external onDtmf: (stream, @as("dtmf") _, @uncurry ('data => unit)) => unit = "on"
+@send external onSpeech: (stream, @as("speech") _, @uncurry ('data => unit)) => unit = "on"
 
 @send external send: (wsconn, 'buffer, bool) => unit = "send"
 
@@ -26,7 +26,7 @@ module Recoger = {
     stream: None,
   }
 
-  let createStream = (st, args: recogArgs) => {
+  let createStream = (st, args: Commands.recogArgs) => {
     let stream = st.stream_factory({
         "uuid": "fake-uuid",
         "engine": args.engine,
@@ -38,12 +38,12 @@ module Recoger = {
         },
       })
     Js.log2("stream", stream)
-    onDtmf(stream, (data) => {
-      Js.log2("onDtmf", data)
+    onSpeech(stream, (data) => {
+      Js.log2("onSpeech", data)
       send(st.wc, Js.Json.stringify(data), false)
     })
     onMessage(st.wc, (data, isBinary) => {
-      Js.log3("onMessage", data, isBinary)
+      //Js.log3("onMessage", data, isBinary)
       if isBinary {
         write(stream, data)
       } else {

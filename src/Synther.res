@@ -1,5 +1,5 @@
 open Types
-open Commands
+//open Commands
 
 @send external read: (stream, int) => 'buffer = "read"
 
@@ -28,7 +28,7 @@ module Synther = {
     stream: None,
   }
 
-  let createStream = (st, args: synthArgs) => {
+  let createStream = (st, args: Commands.synthArgs) => {
     let stream = st.stream_factory({
         "uuid": "fake-uuid",
         "engine": args.engine,

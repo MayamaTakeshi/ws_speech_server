@@ -52,6 +52,8 @@ ws.on('message', function message(data, isBinary) {
   if(isBinary) {
     console.log('received unexpected binary', data)
   } else {
-    console.log('received: %s', data)
+    var d = JSON.parse(data)
+    console.log('received: %s', d)
+    console.log(d.digit)
   }
 })
