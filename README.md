@@ -21,6 +21,10 @@ node src/App.bs.js
 
 ## Commands
 The ws_speech_server supports the following commands that are sent as JSON on the WebSocket connection:
+  - start_speech_synth
+  - start_speech_recog
+
+Ex:
 ```
 {
   cmd: "start_speech_synth",
@@ -40,16 +44,16 @@ The ws_speech_server supports the following commands that are sent as JSON on th
     language: "dtmf",
   }
 }
+```
 
 ## Events
 
 The ws_speech_server will emit the following events:
 
- - speak_complete (when cmd start_speech_synth reaches the end of audio output)
- - speech (when cmd start_speech_recog detects speech)
+  - speak_complete (when cmd start_speech_synth reaches the end of audio output)
+  - speech (when cmd start_speech_recog detects speech)
 
 Ex:
-
 ```
 {"evt": "speak_complete"}
 
