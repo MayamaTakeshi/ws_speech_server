@@ -10,9 +10,11 @@ However, at the moment we only support engines 'dtmf-gen' and 'dtmf-det' that ar
 
 ## Build
 
-- Build: `npm run build`
-- Clean: `npm run clean`
-- Build & watch: `npm run start`
+```
+npm i
+npm run build
+cp config/default.js.sample config/default.js # adjust if necessary
+```
 
 ## Starting
 ```
