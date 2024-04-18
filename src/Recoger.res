@@ -40,7 +40,7 @@ module Recoger = {
     Js.log2("stream", stream)
     onSpeech(stream, (data) => {
       Js.log2("onSpeech", data)
-      send(st.wc, Js.Json.stringify(data), false)
+      send(st.wc, `{"evt": "speech", "data": ` ++ Js.Json.stringify(data) ++ `}`, false)
     })
     onMessage(st.wc, (data, isBinary) => {
       //Js.log3("onMessage", data, isBinary)

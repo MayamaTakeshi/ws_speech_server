@@ -2,17 +2,21 @@
 
 ## Overview
 
-WIP. Nothing to see yet.
-
 This is a websocket server app that provides access to speech synth/recog services.
 
-It is mostly a helper for sip-lab to permit it to use google tts/stt, whisper etc during tests.
+It is mostly a helper for sip-lab to permit it to use speech synth/recog engines like google tts/stt, whisper etc during tests.
+
+However, at the moment we only support engines 'dtmf-gen' and 'dtmf-det' that are used to simulate speech using DTMF tones.
 
 ## Build
 
 - Build: `npm run build`
 - Clean: `npm run clean`
 - Build & watch: `npm run start`
+
+## Testing
+
+See manual tests [here](https://github.com/MayamaTakeshi/ws_speech_server/tree/main/tests/manual)
 
 ## reason-nact
 
