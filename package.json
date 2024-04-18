@@ -1,6 +1,6 @@
 {
   "name": "ws_speech_server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "build": "npx rescript build",
     "start": "npx rescript build -w",

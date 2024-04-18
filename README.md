@@ -14,6 +14,48 @@ However, at the moment we only support engines 'dtmf-gen' and 'dtmf-det' that ar
 - Clean: `npm run clean`
 - Build & watch: `npm run start`
 
+## Starting
+```
+node src/App.bs.js
+```
+
+## Commands
+The ws_speech_server supports the following commands that are sent as JSON on the WebSocket connection:
+```
+{
+  cmd: "start_speech_synth",
+  args: {
+    sampleRate: 8000, // 8000 | 16000 | 32000 | 44100 | 48000
+    engine: "dtmf-gen",
+    voice: "dtmf",
+    text: '1234' // any DTMF tones: 0123456789abcd*#
+  }
+}
+
+{
+  cmd: "start_speech_recog",
+  args: {
+    sampleRate: 8000, // 8000 | 16000 | 32000 | 44100 | 48000
+    engine: "dtmf-det",
+    language: "dtmf",
+  }
+}
+
+## Events
+
+The ws_speech_server will emit the following events:
+
+ - speak_complete (when cmd start_speech_synth reaches the end of audio output)
+ - speech (when cmd start_speech_recog detects speech)
+
+Ex:
+
+```
+{"evt": "speak_complete"}
+
+{"evt": "speech", "data": {"transcript":"ABCD","timestamp":0.46}}
+```
+
 ## Testing
 
 See manual tests [here](https://github.com/MayamaTakeshi/ws_speech_server/tree/main/tests/manual)
