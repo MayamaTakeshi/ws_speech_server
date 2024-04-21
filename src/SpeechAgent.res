@@ -23,6 +23,10 @@ module SpeechAgent = {
       {...st, synther: Synther.start(st.synther, args)}
     | StartSpeechRecog(args) =>
       {...st, recoger: Recoger.start(st.recoger, args)}
+    | StopSpeechSynth =>
+      {...st, synther: Synther.stop(st.synther)}
+    | StopSpeechRecog =>
+      {...st, recoger: Recoger.stop(st.recoger)}
     | _ => 
       Js.log("Unknown")
       st

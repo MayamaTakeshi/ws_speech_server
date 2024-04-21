@@ -58,6 +58,8 @@ let checkRecogArgs = args => {
 type cmd =
   | StartSpeechSynth(synthArgs)
   | StartSpeechRecog(recogArgs)
+  | StopSpeechSynth
+  | StopSpeechRecog
   | Unknown
 
 @scope("JSON") @val external decode_json: string => 'a = "parse"
@@ -84,6 +86,10 @@ let decode = s => {
         }
       | None => Unknown
       }
+    } else if c == "stop_speech_synth" {
+      StopSpeechSynth
+    } else if c == "stop_speech_recog" {
+      StopSpeechRecog
     } else {
       Unknown
     }
