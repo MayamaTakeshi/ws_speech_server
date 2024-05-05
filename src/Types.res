@@ -14,6 +14,7 @@ type engine = {
 }
 
 type format = {
+  audioFormat: int,
   sampleRate: int,
   bitDepth: int,
   channels: int,
@@ -24,6 +25,7 @@ type factory_args = {
   "engine": string,
   "type": string,
   "format": format,
+  "params": Js.Dict.t<string>,
 }
 
 type stream_factory = factory_args => stream

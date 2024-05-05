@@ -1,6 +1,5 @@
 const { WebSocket } = require('ws')
 const Speaker = require('speaker')
-const DtmfDetectionStream = require('dtmf-detection-stream')
 
 const sampleRate = 8000
 
@@ -24,36 +23,44 @@ const send_start_speech_synth = () => {
         sampleRate,
         engine: "dtmf-gen",
         voice: "dtmf",
+        language: "dtmf",
         text: 'ABCD'
+      }})
+    )
+}
+
+const send_start_speech_recog = () => {
+    console.log("sending start_speech_recog")
+    ws.send(JSON.stringify({
+      cmd: "start_speech_recog",
+      args: {
+        sampleRate,
+        engine: "dtmf-det",
+        language: "dtmf",
       }})
     )
 }
 
 ws.on('open', function open() {
   send_start_speech_synth()
-})
-
-const dds = new DtmfDetectionStream({format})
-
-dds.on('dtmf', data => {
-  console.log('dtmf', data)
-  if(data.digit == 'D') {
-    // last digit. ask for speech synth again
-    send_start_speech_synth()
-  }
+  send_start_speech_recog()
 })
 
 ws.on('message', function message(data, isBinary) {
-  /*
   console.log("message", isBinary, data)
+  /*
   console.log("data.length", data.length)
   console.log("data.buffer.length", data.buffer.length)
   console.log("data.buffer.byteLength", data.buffer.byteLength)
   */
   if(isBinary) {
     s.write(data)
-    dds.write(data)
+    ws.send(data, isBinary)
   } else {
     console.log('received: %s', data)
+    var d = JSON.parse(data)
+    if(d.evt == "speech") {
+      send_start_speech_synth()
+    }
   }
 })

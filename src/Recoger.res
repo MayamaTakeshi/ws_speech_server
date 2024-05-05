@@ -32,10 +32,12 @@ module Recoger = {
         "engine": args.engine,
         "type": "recog",
         "format": {
+          audioFormat: 1, // LINEAR16
           sampleRate: args.sampleRate,
           bitDepth: 16,
           channels: 1,
         },
+        "params": Js.Dict.fromArray([("language", args.language)])
       })
     Js.log2("stream", stream)
     onSpeech(stream, (data) => {

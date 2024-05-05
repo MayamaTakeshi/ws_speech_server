@@ -6,7 +6,7 @@ This is a websocket server app that provides access to speech synth/recog servic
 
 It is mostly a helper for sip-lab to permit it to use speech synth/recog engines like google tts/stt, whisper etc during tests.
 
-However, at the moment we only support engines 'dtmf-gen' and 'dtmf-det' that are used to simulate speech using DTMF tones.
+At the moment we only support engines 'dtmf-gen', 'dtmf-det', 'gss' and 'gsr'.
 
 ## Build
 
@@ -18,6 +18,7 @@ cp config/default.js.sample config/default.js # adjust if necessary
 
 ## Starting
 ```
+export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/credentials/file
 node src/App.bs.js
 ```
 
@@ -25,6 +26,8 @@ node src/App.bs.js
 The ws_speech_server supports the following commands that are sent as JSON on the WebSocket connection:
   - start_speech_synth
   - start_speech_recog
+  - stop_speech_synth
+  - stop_speech_recog
 
 Ex:
 ```

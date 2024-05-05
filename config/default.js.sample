@@ -7,12 +7,22 @@ module.exports = {
       "module": "dtmf-generation-stream",
       "config": {},
     },
+    "gss": {
+      "module": "google-speech-synth-stream",
+      "config": {
+        "work_dir": "./tmp",
+      }
+    },
   },
   "sr_engines": {
     "dtmf-det": {
       "module": "dtmf-detection-stream",
       "config": {},
     },
-  }
+    "gsr": {
+      "module": "google-speech-recog-stream",
+      "config": {},
+    },
+  },
 }
 

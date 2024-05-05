@@ -1,17 +1,27 @@
 open Types
 //open Commands
 
+type speakParams = {
+  "headers": {
+    "speech-language": string,
+    "voice-name": string,
+  },
+  "body": string,
+}
+
 @send external read: (stream, int) => 'buffer = "read"
 
 @send external send: (wsconn, 'buffer, bool) => unit = "send"
 
-@send external enqueue: (stream, string) => unit = "enqueue"
+@send external speak: (stream, speakParams) => unit = "speak"
 
 @send external destroy: stream => unit = "destroy"
 
 @send external onEnded: (stream, @as("ended") _, @uncurry (unit => unit)) => unit = "on"
 
 @send external removeAllListeners: stream => unit = "removeAllListeners"
+
+@bs.module("@mayama/audio-utils") external gen_silence: (int, bool, int) => 'a = "gen_silence"
 
 module Synther = {
   type t = {
@@ -34,19 +44,32 @@ module Synther = {
         "engine": args.engine,
         "type": "synth",
         "format": {
+          audioFormat: 1, // LINEAR16
           sampleRate: args.sampleRate,
           bitDepth: 16,
           channels: 1,
         },
+        "params": Js.Dict.empty(),
       })
     Js.log2("stream", stream)
     let bytes = (args.sampleRate / 8000) * 320
     let intId = Js.Global.setInterval(() => {
       let data = read(stream, bytes)
       Js.log2("interval", data)
-      send(st.wc, data, true)
+      if(data) {
+        send(st.wc, data, true)
+      } else {
+        let silence = gen_silence(1, true, bytes)
+        send(st.wc, silence, true)
+      }
     }, 20)
-    enqueue(stream, args.text)
+    speak(stream, {
+      "headers": {
+        "speech-language": args.language,
+        "voice-name": args.voice,
+      }, 
+      "body": args.text,
+    })
     onEnded(stream, () => {
       Js.log("ended")
       let msg = `{"evt": "speak_complete"}`

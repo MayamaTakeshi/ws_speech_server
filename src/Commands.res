@@ -2,23 +2,26 @@ type synthArgs = {
   sampleRate: int,
   engine: string,
   voice: string,
+  language: string,
   text: string,
 }
 
 let checkSynthArgs = args => {
   try {
-    switch (Js.Dict.get(args, "sampleRate"), Js.Dict.get(args, "engine"), Js.Dict.get(args, "voice"), Js.Dict.get(args, "text")) {
-    | (Some(sampleRateJson), Some(engineJson), Some(voiceJson), Some(textJson)) =>
+    switch (Js.Dict.get(args, "sampleRate"), Js.Dict.get(args, "engine"), Js.Dict.get(args, "voice"), Js.Dict.get(args, "language"), Js.Dict.get(args, "text")) {
+    | (Some(sampleRateJson), Some(engineJson), Some(voiceJson), Some(languageJson), Some(textJson)) =>
       switch (
         Js.Json.decodeNumber(sampleRateJson),
         Js.Json.decodeString(engineJson),
         Js.Json.decodeString(voiceJson),
+        Js.Json.decodeString(languageJson),
         Js.Json.decodeString(textJson),
       ) {
-      | (Some(sampleRate), Some(engine), Some(voice), Some(text)) => Some({
+      | (Some(sampleRate), Some(engine), Some(voice), Some(language), Some(text)) => Some({
           sampleRate: Belt.Int.fromFloat(sampleRate),
           engine,
           voice,
+          language,
           text
         })
       | _ => None
