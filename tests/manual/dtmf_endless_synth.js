@@ -1,16 +1,27 @@
 const { WebSocket } = require('ws')
 const Speaker = require('speaker')
 const DtmfDetectionStream = require('dtmf-detection-stream')
+const au = require('@mayama/audio-utils')
 
+const audioFormat = 1
 const sampleRate = 8000
+const signed = true
 
 const format = {
+  audioFormat,
 	sampleRate,
 	bitDepth: 16,
-	channels: 1
+	channels: 1,
+  signed,
 }
 
-const s = new Speaker(format)
+const speaker = new Speaker(format)
+
+// We need to write some initial silence to the speaker to avoid scratchyness/gaps
+const size = 320 * 16
+console.log("writing initial silence to speaker", size)
+data = au.gen_silence(audioFormat, signed, size)
+speaker.write(data)
 
 const ws = new WebSocket('ws://0.0.0.0:8080')
 
@@ -49,7 +60,7 @@ ws.on('message', function message(data, isBinary) {
   console.log("message", isBinary, data)
   */
   if(isBinary) {
-    s.write(data)
+    speaker.write(data)
     dds.write(data)
   } else {
     console.log('received: %s', data)
