@@ -53,6 +53,8 @@ ws.on('message', function message(data, isBinary) {
   } else {
     var d = JSON.parse(data)
     console.log('received:', d)
-    process.exit(0)
+    if(d.evt == 'speech') {
+      process.exit(0)
+    }
   }
 })

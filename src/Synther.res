@@ -17,7 +17,7 @@ type speakParams = {
 
 @send external destroy: stream => unit = "destroy"
 
-@send external onEnded: (stream, @as("ended") _, @uncurry (unit => unit)) => unit = "on"
+//@send external onEnded: (stream, @as("ended") _, @uncurry (unit => unit)) => unit = "on"
 
 @send external removeAllListeners: stream => unit = "removeAllListeners"
 
@@ -53,12 +53,19 @@ module Synther = {
       })
     Js.log2("stream", stream)
     let bytes = (args.sampleRate / 8000) * 320
+    let speakCompleteSent = ref(false)
     let intId = Js.Global.setInterval(() => {
       let data = read(stream, bytes)
       Js.log2("interval", data)
       if(data) {
         send(st.wc, data, true)
       } else {
+        if (!speakCompleteSent.contents) {
+          let msg = `{"evt": "speak_complete"}`
+          send(st.wc, msg, false)
+          speakCompleteSent := true
+        }
+
         let silence = gen_silence(1, true, bytes)
         send(st.wc, silence, true)
       }
@@ -70,11 +77,13 @@ module Synther = {
       }, 
       "body": args.text,
     })
+    /*
     onEnded(stream, () => {
       Js.log("ended")
       let msg = `{"evt": "speak_complete"}`
       send(st.wc, msg, false)
     })
+    */
     {...st, stream: Some(stream), intId: Js.Nullable.return(intId)}
   }
 

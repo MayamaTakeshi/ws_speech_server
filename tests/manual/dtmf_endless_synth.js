@@ -47,9 +47,6 @@ dds.on('dtmf', data => {
 ws.on('message', function message(data, isBinary) {
   /*
   console.log("message", isBinary, data)
-  console.log("data.length", data.length)
-  console.log("data.buffer.length", data.buffer.length)
-  console.log("data.buffer.byteLength", data.buffer.byteLength)
   */
   if(isBinary) {
     s.write(data)
