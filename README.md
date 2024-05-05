@@ -37,6 +37,7 @@ Ex:
     sampleRate: 8000, // 8000 | 16000 | 32000 | 44100 | 48000
     engine: "dtmf-gen",
     voice: "dtmf",
+    language: "dtmf",
     text: '1234' // any DTMF tones: 0123456789abcd*#
   }
 }
