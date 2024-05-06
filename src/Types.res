@@ -25,7 +25,7 @@ type factory_args = {
   "engine": string,
   "type": string,
   "format": format,
-  "params": Js.Dict.t<string>,
+  "params": Js.Json.t,
 }
 
 type stream_factory = factory_args => stream

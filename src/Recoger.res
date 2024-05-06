@@ -37,7 +37,11 @@ module Recoger = {
           bitDepth: 16,
           channels: 1,
         },
-        "params": Js.Dict.fromArray([("language", args.language)])
+        //"params": RecogParams({"language": args.language}),
+        //"params": Js.Dict.fromArray([("language", args.language)]),
+        //"params": Js.Json.object_(Js.Dict.fromArray([("language", Js.Json.string(args.language)) ]))
+        "params": Js.Dict.fromArray([("language", Js.Json.string(args.language))])
+                   -> Js.Json.object_
       })
     Js.log2("stream", stream)
     onSpeech(stream, (data) => {

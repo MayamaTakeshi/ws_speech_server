@@ -1,6 +1,7 @@
 open Types
 //open Commands
 
+/*
 type speakParams = {
   "headers": {
     "speech-language": string,
@@ -8,12 +9,14 @@ type speakParams = {
   },
   "body": string,
 }
+*/
+
 
 @send external read: (stream, int) => 'buffer = "read"
 
 @send external send: (wsconn, 'buffer, bool) => unit = "send"
 
-@send external speak: (stream, speakParams) => unit = "speak"
+//@send external speak: (stream, speakParams) => unit = "speak"
 
 @send external destroy: stream => unit = "destroy"
 
@@ -49,8 +52,15 @@ module Synther = {
           bitDepth: 16,
           channels: 1,
         },
-        "params": Js.Dict.empty(),
-      })
+        "params": Js.Dict.fromArray(
+          [
+            ("language", Js.Json.string(args.language)),
+            ("voice", Js.Json.string(args.voice)),
+            ("text", Js.Json.string(args.text))
+          ])
+          -> Js.Json.object_
+
+    })
     Js.log2("stream", stream)
     let bytes = (args.sampleRate / 8000) * 320
     let speakCompleteSent = ref(false)
@@ -71,6 +81,7 @@ module Synther = {
         send(st.wc, silence, true)
       }
     }, 20)
+    /*
     speak(stream, {
       "headers": {
         "speech-language": args.language,
@@ -78,6 +89,7 @@ module Synther = {
       }, 
       "body": args.text,
     })
+    */
     /*
     onEnded(stream, () => {
       Js.log("ended")
