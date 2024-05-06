@@ -67,6 +67,7 @@ module Synther = {
         }
 
         let silence = gen_silence(1, true, bytes)
+        Js.log2("sending silence", silence)
         send(st.wc, silence, true)
       }
     }, 20)

@@ -40,21 +40,8 @@ const send_start_speech_synth = () => {
     )
 }
 
-const send_start_speech_recog = () => {
-    console.log("sending start_speech_recog")
-    ws.send(JSON.stringify({
-      cmd: "start_speech_recog",
-      args: {
-        sampleRate,
-        engine: "gsr",
-        language: "en-US",
-      }})
-    )
-}
-
 ws.on('open', function open() {
   send_start_speech_synth()
-  send_start_speech_recog()
 })
 
 ws.on('message', function message(data, isBinary) {
@@ -64,8 +51,10 @@ ws.on('message', function message(data, isBinary) {
   } else {
     var d = JSON.parse(data)
     console.log('received:', JSON.stringify(d, null, 2))
-    if(d.evt == 'speech') {
-      process.exit(0)
+    if(d.evt == 'speak_complete') {
+      setTimeout(() => {
+        process.exit(0)
+      }, 2000)
     }
   }
 })
