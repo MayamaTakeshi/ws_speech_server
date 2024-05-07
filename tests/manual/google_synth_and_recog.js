@@ -35,7 +35,7 @@ const send_start_speech_synth = () => {
         engine: "gss",
         voice: "en-US-Standard-G",
         language: "en-US",
-        text: 'hello world'
+        text: '<speak>hello world<break time="3s"/>how are you?<break time="3s"/></speak>',
       }})
     )
 }
@@ -57,6 +57,8 @@ ws.on('open', function open() {
   send_start_speech_recog()
 })
 
+var count = 0
+
 ws.on('message', function message(data, isBinary) {
   if(isBinary) {
     speaker.write(data)
@@ -65,7 +67,10 @@ ws.on('message', function message(data, isBinary) {
     var d = JSON.parse(data)
     console.log('received:', JSON.stringify(d, null, 2))
     if(d.evt == 'speech') {
-      process.exit(0)
+      count++
+      if(count == 2) {
+        process.exit(0)
+      }
     }
   }
 })

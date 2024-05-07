@@ -66,18 +66,19 @@ module Synther = {
     let speakCompleteSent = ref(false)
     let intId = Js.Global.setInterval(() => {
       let data = read(stream, bytes)
-      Js.log2("interval", data)
+      //Js.log2("interval", data)
       if(data) {
         send(st.wc, data, true)
       } else {
         if (!speakCompleteSent.contents) {
           let msg = `{"evt": "speak_complete"}`
+          Js.log(msg)
           send(st.wc, msg, false)
           speakCompleteSent := true
         }
 
         let silence = gen_silence(1, true, bytes)
-        Js.log2("sending silence", silence)
+        //Js.log2("sending silence", silence)
         send(st.wc, silence, true)
       }
     }, 20)

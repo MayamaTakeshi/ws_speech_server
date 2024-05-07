@@ -11,8 +11,8 @@ node src/App.bs.js
 
 Then in another shell execute any of these test scripts:
 ```
-node endless_synth.js
+node dtmf_endless_synth.js
 
-node endless_recog.js
+node dtmf_endless_recog.js
 
-node endless_synth_and_recog.js
+node dtmf_endless_synth_and_recog.js
