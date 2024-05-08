@@ -17,7 +17,7 @@ const format = {
 const speaker = new Speaker(format)
 
 // We need to write some initial silence to the speaker to avoid scratchyness/gaps
-const size = 320 * 16
+const size = 320 * 64
 console.log("writing initial silence to speaker", size)
 data = au.gen_silence(audioFormat, signed, size)
 speaker.write(data)
@@ -35,7 +35,8 @@ const send_start_speech_synth = () => {
         engine: "gss",
         voice: "en-US-Standard-G",
         language: "en-US",
-        text: 'hello world'
+        text: 'hello world',
+        times: 2,
       }})
     )
 }
@@ -54,7 +55,7 @@ ws.on('message', function message(data, isBinary) {
     if(d.evt == 'speak_complete') {
       setTimeout(() => {
         process.exit(0)
-      }, 2000)
+      }, 3000)
     }
   }
 })

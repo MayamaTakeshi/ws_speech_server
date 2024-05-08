@@ -24,7 +24,7 @@
     "dtmf-detection-stream": "^1.16.2",
     "dtmf-generation-stream": "^1.11.0",
     "google-speech-recog-stream": "^1.4.0",
-    "google-speech-synth-stream": "^1.6.0",
+    "google-speech-synth-stream": "^1.7.0",
     "reason-nact": "^5.0.0",
     "rescript": "^9.1.4",
     "speaker": "^0.5.4",

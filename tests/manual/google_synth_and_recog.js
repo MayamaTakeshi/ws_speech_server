@@ -17,7 +17,7 @@ const format = {
 const speaker = new Speaker(format)
 
 // We need to write some initial silence to the speaker to avoid scratchyness/gaps
-const size = 320 * 16
+const size = 320 * 64
 console.log("writing initial silence to speaker", size)
 data = au.gen_silence(audioFormat, signed, size)
 speaker.write(data)
@@ -36,6 +36,7 @@ const send_start_speech_synth = () => {
         voice: "en-US-Standard-G",
         language: "en-US",
         text: '<speak>hello world<break time="3s"/>how are you?<break time="3s"/></speak>',
+        times: 1,
       }})
     )
 }

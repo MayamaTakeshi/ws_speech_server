@@ -4,25 +4,28 @@ type synthArgs = {
   voice: string,
   language: string,
   text: string,
+  times: float,
 }
 
 let checkSynthArgs = args => {
   try {
-    switch (Js.Dict.get(args, "sampleRate"), Js.Dict.get(args, "engine"), Js.Dict.get(args, "voice"), Js.Dict.get(args, "language"), Js.Dict.get(args, "text")) {
-    | (Some(sampleRateJson), Some(engineJson), Some(voiceJson), Some(languageJson), Some(textJson)) =>
+    switch (Js.Dict.get(args, "sampleRate"), Js.Dict.get(args, "engine"), Js.Dict.get(args, "voice"), Js.Dict.get(args, "language"), Js.Dict.get(args, "text"), Js.Dict.get(args, "times")) {
+    | (Some(sampleRateJson), Some(engineJson), Some(voiceJson), Some(languageJson), Some(textJson), Some(timesJson)) =>
       switch (
         Js.Json.decodeNumber(sampleRateJson),
         Js.Json.decodeString(engineJson),
         Js.Json.decodeString(voiceJson),
         Js.Json.decodeString(languageJson),
         Js.Json.decodeString(textJson),
+        Js.Json.decodeNumber(timesJson),
       ) {
-      | (Some(sampleRate), Some(engine), Some(voice), Some(language), Some(text)) => Some({
+      | (Some(sampleRate), Some(engine), Some(voice), Some(language), Some(text), Some(times)) => Some({
           sampleRate: Belt.Int.fromFloat(sampleRate),
           engine,
           voice,
           language,
-          text
+          text,
+          times,
         })
       | _ => None
       }

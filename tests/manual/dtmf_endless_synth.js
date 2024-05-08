@@ -36,7 +36,8 @@ const send_start_speech_synth = () => {
         engine: "dtmf-gen",
         voice: "dtmf",
         language: "dtmf",
-        text: 'ABCD'
+        text: 'ABCD',
+        times: 1,
       }})
     )
 }

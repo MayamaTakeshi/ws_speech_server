@@ -56,7 +56,8 @@ module Synther = {
           [
             ("language", Js.Json.string(args.language)),
             ("voice", Js.Json.string(args.voice)),
-            ("text", Js.Json.string(args.text))
+            ("text", Js.Json.string(args.text)),
+            ("times", Js.Json.number(args.times)),
           ])
           -> Js.Json.object_
 

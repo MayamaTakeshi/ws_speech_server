@@ -11,7 +11,7 @@ reader.on('format', function (format) {
   const speaker = new Speaker(format)
 
   // We need to write some initial silence to the speaker to avoid scratchyness/gaps
-  const size = 320 * 16
+  const size = 320 * 64
   console.log("writing initial silence to speaker", size)
   data = au.gen_silence(format.audioFormat, format.signed, size)
   speaker.write(data)
@@ -39,14 +39,6 @@ reader.on('format', function (format) {
       const size = format.sampleRate / 8000 * 320
       var data = reader.read(size)
       if(data) {
-        /*
-        if(data.length != size) {
-          console.log("unexpected data length")
-          const diff = size - data.length
-          const silence = au.gen_silence(format.audioFormat, format.signed, diff)
-          data = Buffer.concat([data, silence])
-        }
-        */
         ws.send(data, true) 
         speaker.write(data)
       } else {
