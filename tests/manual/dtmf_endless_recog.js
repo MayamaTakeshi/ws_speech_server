@@ -43,14 +43,12 @@ ws.on('open', function open() {
   send_start_speech_recog()
 })
 
-const dgs = new DtmfGenerationStream({format})
-
-const enqueue = (digits) => {
-  console.log(`enqueuing ${digits}`)
-  dgs.enqueue(digits)
+const params = {
+  text: '<speak><prosody rate="50ms">1234</prosody><break time="500ms"/></speak>',
+  times: Infinity,
 }
-
-enqueue('1234')
+  
+const dgs = new DtmfGenerationStream({format, params})
 
 setInterval(() => {
   var bytes = (sampleRate / 8000) * 320
@@ -71,8 +69,5 @@ ws.on('message', function message(data, isBinary) {
   } else {
     console.log('received: %s', data)
     var d = JSON.parse(data)
-    if(d.evt == "speech") {
-      enqueue('1234')
-    }
   }
 })

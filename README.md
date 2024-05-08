@@ -38,7 +38,8 @@ Ex:
     engine: "dtmf-gen",
     voice: "dtmf",
     language: "dtmf",
-    text: '1234' // any DTMF tones: 0123456789abcd*#
+    text: '1234', // any DTMF tones: 0123456789abcd*#
+    times: 1, // number of times the text should be played
   }
 }
 
