@@ -1,26 +1,10 @@
 open Types
-//open Commands
-
-/*
-type speakParams = {
-  "headers": {
-    "speech-language": string,
-    "voice-name": string,
-  },
-  "body": string,
-}
-*/
-
 
 @send external read: (stream, int) => 'buffer = "read"
 
 @send external send: (wsconn, 'buffer, bool) => unit = "send"
 
-//@send external speak: (stream, speakParams) => unit = "speak"
-
 @send external destroy: stream => unit = "destroy"
-
-//@send external onEnded: (stream, @as("ended") _, @uncurry (unit => unit)) => unit = "on"
 
 @send external removeAllListeners: stream => unit = "removeAllListeners"
 
@@ -72,7 +56,7 @@ module Synther = {
         send(st.wc, data, true)
       } else {
         if (!speakCompleteSent.contents) {
-          let msg = `{"evt": "speak_complete"}`
+          let msg = `{"evt": "synth_complete"}`
           Js.log(msg)
           send(st.wc, msg, false)
           speakCompleteSent := true
@@ -83,22 +67,6 @@ module Synther = {
         send(st.wc, silence, true)
       }
     }, 20)
-    /*
-    speak(stream, {
-      "headers": {
-        "speech-language": args.language,
-        "voice-name": args.voice,
-      }, 
-      "body": args.text,
-    })
-    */
-    /*
-    onEnded(stream, () => {
-      Js.log("ended")
-      let msg = `{"evt": "speak_complete"}`
-      send(st.wc, msg, false)
-    })
-    */
     {...st, stream: Some(stream), intId: Js.Nullable.return(intId)}
   }
 

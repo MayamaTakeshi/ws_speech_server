@@ -52,7 +52,7 @@ ws.on('message', function message(data, isBinary) {
   } else {
     var d = JSON.parse(data)
     console.log('received:', JSON.stringify(d, null, 2))
-    if(d.evt == 'speak_complete') {
+    if(d.evt == 'synth_complete') {
       setTimeout(() => {
         process.exit(0)
       }, 3000)
