@@ -57,12 +57,12 @@ Ex:
 
 The ws_speech_server will emit the following events:
 
-  - speak_complete (when cmd start_speech_synth reaches the end of audio output)
+  - synth_complete (when cmd start_speech_synth reaches the end of audio output)
   - speech (when cmd start_speech_recog detects speech)
 
 Ex:
 ```
-{"evt": "speak_complete"}
+{"evt": "synth_complete"}
 
 {"evt": "speech", "data": {"transcript":"ABCD","timestamp":0.46}}
 ```
