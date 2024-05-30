@@ -47,7 +47,7 @@ module Synther = {
 
     })
     Js.log2("stream", stream)
-    let bytes = (args.sampleRate / 8000) * 320
+    let bytes = (args.sampleRate / 8000) * 640
     let speakCompleteSent = ref(false)
     let intId = Js.Global.setInterval(() => {
       let data = read(stream, bytes)

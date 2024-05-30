@@ -47,7 +47,9 @@ let prepare_server = (stream_factory) => {
       }
     });
 
-    onError(wc, () => {
+    onError(wc, (err) => {
+      Js.log2("ws error", err)
+      Js.log(`ws error ${err}`)
       removeAllListeners(wc)
       dispatch(sa, WSError)
     });
