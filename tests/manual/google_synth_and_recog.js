@@ -70,7 +70,9 @@ ws.on('message', function message(data, isBinary) {
     if(d.evt == 'speech') {
       count++
       if(count == 2) {
-        process.exit(0)
+        setTimeout(() => {
+          process.exit(0)
+        }, 3000)
       }
     }
   }
