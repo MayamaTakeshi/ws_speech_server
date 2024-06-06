@@ -35,10 +35,10 @@ Ex:
   cmd: "start_speech_synth",
   args: {
     sampleRate: 8000, // 8000 | 16000 | 32000 | 44100 | 48000
-    engine: "dtmf-gen",
+    engine: "dtmf-gen", // dtmf-gen | gss
     voice: "dtmf",
     language: "dtmf",
-    text: '1234', // any DTMF tones: 0123456789abcd*#
+    text: '1234',
     times: 1, // number of times the text should be played
   }
 }
@@ -47,7 +47,7 @@ Ex:
   cmd: "start_speech_recog",
   args: {
     sampleRate: 8000, // 8000 | 16000 | 32000 | 44100 | 48000
-    engine: "dtmf-det",
+    engine: "dtmf-det", // dtmf-det | gsr
     language: "dtmf",
   }
 }
