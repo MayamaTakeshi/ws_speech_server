@@ -64,7 +64,7 @@ Ex:
 ```
 {"evt": "synth_complete"}
 
-{"evt": "speech", "data": {"transcript":"ABCD","timestamp":0.46}}
+{"evt": "speech", "data": {"transcript":"abcd","timestamp":0.46}}
 ```
 
 ## Testing
