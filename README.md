@@ -86,12 +86,12 @@ Ex:
 }
 ```
 
-## Events
+## Messages
 
-The ws_speech_server will emit the following events:
+The ws_speech_server will send the following messages in the websocket connection:
 
   - synth_complete (when cmd start_speech_synth reaches the end of audio output)
-  - speech (when cmd start_speech_recog detects speech)
+  - speech (when cmd start_speech_recog detects speech).
 
 Ex:
 ```
