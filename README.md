@@ -16,6 +16,39 @@ npm run build
 cp config/default.js.sample config/default.js # adjust if necessary
 ```
 
+If the build fails with something like:
+```
+$ npm run build
+
+> ws_speech_server@1.0.0 build
+> npx rescript build                                                                       
+
+rescript: [1/2] src/SpeechAgent.cmj
+FAILED: src/SpeechAgent.cmj
+                                             
+  We've found a bug for you!
+  /root/tmp/ws_speech_server/src/SpeechAgent.res:2:6-9
+                                             
+  1 │ open Types                     
+  2 │ open Nact                        
+  3 │ //open Commands                                                                      
+  4 │ open Synther                  
+                                                                                           
+  The module or file Nact can't be found.
+  - If it's a third-party dependency:                                                      
+    - Did you list it in bsconfig.json?                                                    
+    - Did you run `rescript build` instead of `rescript build -with-deps`
+      (latter builds third-parties)?
+  - Did you include the file's directory in bsconfig.json?
+                                             
+FAILED: cannot make progress due to previous errors.
+```
+do this:
+```
+npm run clean
+npm run build
+```
+
 ## Starting
 ```
 export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/credentials/file
