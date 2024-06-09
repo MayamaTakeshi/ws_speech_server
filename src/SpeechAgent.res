@@ -43,7 +43,7 @@ module SpeechAgent = {
     spawn(
       ~name=id,
       parent,
-      (st, m, _) => {
+      (st, m, ctx) => {
           switch m {
              | WSString(s) => {
                Js.log(`Got ${s}`);
@@ -51,10 +51,12 @@ module SpeechAgent = {
              }
              | WSError => {
                Js.log(`Got error`);
+               ctx.self -> Nact.stop
                stop(st)
              }
              | WSClose => {
                Js.log(`Got close`);
+               ctx.self -> Nact.stop
                stop(st)
              }
           }
