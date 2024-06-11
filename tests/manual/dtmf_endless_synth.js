@@ -50,7 +50,7 @@ const dds = new DtmfDetectionStream({format})
 
 dds.on('dtmf', data => {
   console.log('dtmf', data)
-  if(data.digit == 'D') {
+  if(data.digit == 'd') {
     // last digit. ask for speech synth again
     send_start_speech_synth()
   }
