@@ -26,7 +26,7 @@ reader.on('format', function (format) {
         cmd: "start_speech_recog",
         args: {
           sampleRate: format.sampleRate,
-          engine: "gsr",
+          engine: "google-sr",
           language: "en-US",
         }})
       )

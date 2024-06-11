@@ -3,7 +3,7 @@ const Speaker = require('speaker')
 const au = require('@mayama/audio-utils')
 
 const audioFormat = 1
-const sampleRate = 16000
+const sampleRate = 8000
 const signed = true
 
 const format = {
@@ -14,10 +14,13 @@ const format = {
   signed,
 }
 
+const language = '300:2500'
+const voice = '5' // tone duration
+
 const speaker = new Speaker(format)
 
 // We need to write some initial silence to the speaker to avoid scratchyness/gaps
-const size = 320 * 64
+const size = 320 * 16
 console.log("writing initial silence to speaker", size)
 data = au.gen_silence(audioFormat, signed, size)
 speaker.write(data)
@@ -32,30 +35,44 @@ const send_start_speech_synth = () => {
       cmd: "start_speech_synth",
       args: {
         sampleRate,
-        engine: "google-ss",
-        voice: "en-US-Standard-G",
-        language: "en-US",
-        text: 'hello world',
-        times: 2,
+        engine: "bfsk-ss",
+        voice,
+        language,
+        text: '<speak><prosody rate="5ms">hello world</prosody><break time="500ms"/></speak>',
+        times: 1,
+      }})
+    )
+}
+
+const send_start_speech_recog = () => {
+    console.log("sending start_speech_recog")
+    ws.send(JSON.stringify({
+      cmd: "start_speech_recog",
+      args: {
+        sampleRate,
+        engine: "bfsk-sr",
+        language,
       }})
     )
 }
 
 ws.on('open', function open() {
   send_start_speech_synth()
+  send_start_speech_recog()
 })
 
 ws.on('message', function message(data, isBinary) {
+  /*
+  console.log("message", isBinary, data)
+  */
   if(isBinary) {
     speaker.write(data)
     ws.send(data, isBinary)
   } else {
+    console.log('received: %s', data)
     var d = JSON.parse(data)
-    console.log('received:', JSON.stringify(d, null, 2))
-    if(d.evt == 'synth_complete') {
-      setTimeout(() => {
-        process.exit(0)
-      }, 3000)
+    if(d.evt == "speech") {
+      send_start_speech_synth()
     }
   }
 })

@@ -32,7 +32,7 @@ const send_start_speech_synth = () => {
       cmd: "start_speech_synth",
       args: {
         sampleRate,
-        engine: "gss",
+        engine: "google-ss",
         voice: "en-US-Standard-G",
         language: "en-US",
         text: '<speak>hello world<break time="3s"/>how are you?<break time="3s"/></speak>',
@@ -47,7 +47,7 @@ const send_start_speech_recog = () => {
       cmd: "start_speech_recog",
       args: {
         sampleRate,
-        engine: "gsr",
+        engine: "google-sr",
         language: "en-US",
       }})
     )

@@ -33,7 +33,7 @@ const send_start_speech_recog = () => {
       cmd: "start_speech_recog",
       args: {
         sampleRate,
-        engine: "dtmf-det",
+        engine: "dtmf-sr",
         language: "dtmf",
       }})
     )

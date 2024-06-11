@@ -3,24 +3,33 @@ module.exports = {
   "port": 8080,
 
   "ss_engines": {
-    "dtmf-gen": {
+    "dtmf-ss": {
       "module": "dtmf-generation-stream",
       "config": {},
     },
-    "gss": {
+    "google-ss": {
       "module": "google-speech-synth-stream",
       "config": {
         "work_dir": "./tmp",
-      }
+      },
     },
+    "bfsk-ss": {
+      "module": "bfsk-speech-synth-stream",
+      "config": {},
+    },
+
   },
   "sr_engines": {
-    "dtmf-det": {
+    "dtmf-sr": {
       "module": "dtmf-detection-stream",
       "config": {},
     },
-    "gsr": {
+    "google-sr": {
       "module": "google-speech-recog-stream",
+      "config": {},
+    },
+    "bfsk-sr": {
+      "module": "bfsk-speech-recog-stream",
       "config": {},
     },
   },
