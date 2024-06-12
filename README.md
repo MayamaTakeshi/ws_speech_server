@@ -15,7 +15,6 @@ At the moment we only support engines 'dtmf-ss', 'dtmf-sr', 'bfsk-ss', 'bfsk-sr'
 ```
 npm i
 npm run build
-cp config/default.js.sample config/default.js # adjust if necessary
 ```
 
 If the build fails with something like:
@@ -54,6 +53,7 @@ npm run build
 ## Starting
 ```
 export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/credentials/file
+cp config/default.js.sample config/default.js # adjust if necessary
 node src/App.bs.js
 ```
 
