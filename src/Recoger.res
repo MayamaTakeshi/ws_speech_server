@@ -13,6 +13,8 @@ open Types
 
 @send external removeAllListeners: stream => unit = "removeAllListeners"
 
+@val external randomUUID: unit => string = "crypto.randomUUID"
+
 module Recoger = {
   type t = {
     wc: wsconn,
@@ -28,7 +30,7 @@ module Recoger = {
 
   let createStream = (st, args: Commands.recogArgs) => {
     let stream = st.stream_factory({
-        "uuid": "fake-uuid",
+        "uuid": randomUUID(),
         "engine": args.engine,
         "type": "recog",
         "format": {

@@ -10,6 +10,8 @@ open Types
 
 @bs.module("@mayama/audio-utils") external gen_silence: (int, bool, int) => 'a = "gen_silence"
 
+@val external randomUUID: unit => string = "crypto.randomUUID"
+
 module Synther = {
   type t = {
     wc: wsconn,
@@ -27,7 +29,7 @@ module Synther = {
 
   let createStream = (st, args: Commands.synthArgs) => {
     let stream = st.stream_factory({
-        "uuid": "fake-uuid",
+        "uuid": randomUUID(),
         "engine": args.engine,
         "type": "synth",
         "format": {
