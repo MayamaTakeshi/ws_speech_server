@@ -4,7 +4,7 @@
 
 This is a websocket server app that provides access to speech synth/recog services.
 
-It is mostly a helper for sip-lab to permit it to use speech synth/recog engines like google tts/stt, whisper etc during tests.
+It is mostly a helper for [sip-lab](https://github.com/MayamaTakeshi/sip-lab) to permit it to use speech synth/recog engines like google tts/stt, whisper etc during tests.
 
 At the moment we only support engines 'dtmf-ss', 'dtmf-sr', 'bfsk-ss', 'bfsk-sr', 'google-ss' and 'google-sr'
 
